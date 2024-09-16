@@ -48,7 +48,7 @@ train_args.run_name += f"_{args.task}_{args.num_layers}_{args.hidden_size}_{args
 train_args.output_dir += f"/{train_args.run_name}"
 if train_args.do_eval and not train_args.do_train:
     train_args.run_name = 'eval' + train_args.run_name
-train_args.dataloader_num_workers = 4
+train_args.dataloader_num_workers = 1
 if train_args.resume_from_checkpoint == 'True':
     try:
         train_args.resume_from_checkpoint = get_last_checkpoint(train_args.output_dir)

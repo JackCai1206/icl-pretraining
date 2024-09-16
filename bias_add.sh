@@ -3,7 +3,7 @@ set -e
 for task in bias_add bias_add_9010 bias_add_1090; do
     for do_train num_test in True 100 False 1000; do
         NCCL_IB_DISABLE="1" NCCL_P2P_DISABLE="1" CUDA_VISIBLE_DEVICES=0 WANDB_MODE=online python run.py \
-            --seed=43 \
+            --seed=44 \
             --task=$task \
             --num_mix_train=1 \
             \
@@ -16,6 +16,9 @@ for task in bias_add bias_add_9010 bias_add_1090; do
             --max_position_embeddings=1024 \
             \
             \
+            --ignore_data_skip=True \
+            --resume_from_checkpoint=True \
+            --save_total_limit=1 \
             --run_name='' \
             --output_dir=out3 \
             --do_train=$do_train \

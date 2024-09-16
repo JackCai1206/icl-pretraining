@@ -17,7 +17,7 @@ for task in bias_add_simple_9010 bias_add_simple_1090 bias_add_simple; do
             \
             \
             --run_name='' \
-            --output_dir=out \
+            --output_dir=out3 \
             --do_train=$do_train \
             --do_eval=True \
             --max_steps=10000 \
@@ -32,7 +32,7 @@ for task in bias_add_simple_9010 bias_add_simple_1090 bias_add_simple; do
             --logging_steps=20 \
             --eval_strategy="steps" \
             --eval_steps=200 \
-            --per_device_train_batch_size=240 \
+            --per_device_train_batch_size=200 \
             --per_device_eval_batch_size=100 \
             --gradient_accumulation_steps=4 \
             --include_inputs_for_metrics=True \
