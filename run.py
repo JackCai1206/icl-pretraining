@@ -48,7 +48,7 @@ train_args.run_name += f"_{args.task}_{args.num_layers}_{args.hidden_size}_{args
 train_args.output_dir += f"/{train_args.run_name}"
 if train_args.do_eval and not train_args.do_train:
     train_args.run_name = 'eval' + train_args.run_name
-train_args.dataloader_num_workers = 1
+train_args.dataloader_num_workers = 4
 if train_args.resume_from_checkpoint == 'True':
     try:
         train_args.resume_from_checkpoint = get_last_checkpoint(train_args.output_dir)
@@ -255,7 +255,11 @@ def tokenize(batch, tokenizer: CharacterTokenizer, args: ScriptArguments, batche
             lines.extend([ex[0] + ex[1] for ex in all_examples])
             label_masks.extend([[0] * len(ex[0]) + [1] * len(ex[1]) for ex in all_examples])
     label_masks = torch.tensor(label_masks)
-    results = tokenizer(lines, truncation=False, padding="do_not_pad", add_special_tokens=False, return_token_type_ids=False, max_length=args.max_position_embeddings, return_tensors="pt")
+    # results = tokenizer(lines, truncation=False, padding="do_not_pad", add_special_tokens=False, return_token_type_ids=False, max_length=args.max_position_embeddings, return_tensors="pt")
+    results = {}
+    results['input_ids'] = torch.tensor([[tokenizer._convert_token_to_id(t) for t in l] for l in lines], dtype=torch.long)
+    # results['attention_mask'] = (results['input_ids'] != tokenizer.pad_token_id).long()
+    results['attention_mask'] = torch.ones_like(results['input_ids'])
     results['labels'] = results['input_ids'].clone()
     results['labels'][label_masks == 0] = -100
     for key in ['input_ids', 'attention_mask', 'labels']:

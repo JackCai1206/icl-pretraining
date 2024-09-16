@@ -2,7 +2,7 @@ set -e
 
 for task in bias_add_simple_9010 bias_add_simple_1090 bias_add_simple; do
     for do_train num_test in True 100 False 1000; do
-        NCCL_IB_DISABLE="1" NCCL_P2P_DISABLE="1" CUDA_VISIBLE_DEVICES=0 WANDB_MODE=online python run.py \
+        NCCL_IB_DISABLE="1" NCCL_P2P_DISABLE="1" CUDA_VISIBLE_DEVICES=1 WANDB_MODE=online python run.py \
             --seed=43 \
             --task=$task \
             --num_mix_train=1 \
@@ -16,14 +16,17 @@ for task in bias_add_simple_9010 bias_add_simple_1090 bias_add_simple; do
             --max_position_embeddings=1024 \
             \
             \
+            --ignore_data_skip=True \
+            --resume_from_checkpoint=True \
+            --save_total_limit=1 \
             --run_name='' \
             --output_dir=out3 \
             --do_train=$do_train \
             --do_eval=True \
-            --max_steps=10000 \
+            --max_steps=5000 \
             --learning_rate=5e-4 \
             --lr_scheduler_type='warmup_stable_decay' \
-            --lr_scheduler_kwargs='{"num_stable_steps": 9000, "num_decay_steps": 1000}' \
+            --lr_scheduler_kwargs='{"num_stable_steps": 4000, "num_decay_steps": 500}' \
             --adam_beta2=0.98 \
             --adam_epsilon=1e-8 \
             --weight_decay=0.01 \
