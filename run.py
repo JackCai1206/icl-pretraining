@@ -68,7 +68,8 @@ def sample_hidden_param(task: str, k: int, train=True):
         if train:
             return random.sample(list(range(0, 10)), k)
         else:
-                return [2, 6]
+            # return [2, 6]
+            return random.sample(list(range(0, 10)), k)
     elif task == "bias_add_simple_9010":
         if train:
             if random.random() < 0.9:
@@ -76,7 +77,8 @@ def sample_hidden_param(task: str, k: int, train=True):
             else:
                 return random.sample(list(range(5, 10)), k)
         else:
-            return [2, 6]
+            # return [2, 6]
+            return random.sample(list(range(0, 10)), k)
     elif task == "bias_add_simple_1090":
         if train:
             if random.random() < 0.1:
@@ -84,7 +86,8 @@ def sample_hidden_param(task: str, k: int, train=True):
             else:
                 return random.sample(list(range(5, 10)), k)
         else:
-            return [2, 6]
+            # return [2, 6]
+            return random.sample(list(range(0, 10)), k)
     elif task == "bias_add":
         if train:
             return random.sample(list(range(-9, 0)) + list(range(1, 10)), k)
